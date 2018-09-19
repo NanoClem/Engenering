@@ -1,4 +1,4 @@
-# Engenering
+# Info501
 Data-Science Engenering studies
 
-This repository concerns all my work during my engenering studies.
+This repository concerns all my work about programming during my engenering studies
