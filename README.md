@@ -1,4 +1,4 @@
-# Proj531
-Project management class repository
+# Engenering
+Data-Science Engenering studies
 
-This repository concerns all my work about project maganement during my engenering studies
+This repository concerns all my work during my engenering studies.
