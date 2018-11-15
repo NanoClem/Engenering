@@ -68,6 +68,84 @@ class image:
     #
     #
     
+    
+    def binaris(self, S):
+        
+        # preparaton du resultat : creation d'une image vide 
+        im_modif = image()
+        # affectation de l'image resultat par un tableau de 0, de meme taille
+        # que le tableau de pixels de l'image self
+        # les valeurs sont de type uint8 (8bits non signes)
+        im_modif.set_pixels(np.zeros((self.H,self.W), dtype=np.uint8))
+                                                
+        # boucle imbriquees pour parcourir tous les pixels de l'image
+        for l in range(self.H):
+            for c in range(self.W):
+                # modif des pixels d'intensite >= a S
+                if self.pixels[l][c] >= S:
+                    im_modif.pixels[l][c] = 255
+                else :
+                    im_modif.pixels[l][c] = 0
+        return im_modif
+    
+    
+    #
+    #
+    #
+    
+    # Recadrage de l'image binarisée de manière à englober la forme desiree
+    # à partir des pixels noirs
+    def localisation(self):
+        
+        #creation de la nouvelle image recadree
+        im_loc = image()
+        
+        # declaration des coordonnees de localisation
+        l_min = l_max = c_min = c_max = -10
+        
+        # determination des coordonnees min/max des lignes
+        for l in range(self.H) :
+            for c in range(self.W) :
+                if self.pixels[l][c] == 0 :     # om tombe sur un pixel noir
+                    if(l_min == -10) :          # si la valeur n'a pas deja ete trouve, on note les coords
+                        l_min = l
+                    l_max = l                   # on note les coords max jusqu'a ce qu'on ait plus que des pixels blancs
+        
+        # determination des coordonnee min/max des colonnes
+        for c in range(self.W) :
+            for l in range(self.H) :
+                if self.pixels[l][c] == 0:
+                    if(c_min == -10) :
+                        c_min = c
+                    c_max = c
+                    
+        #on affetce les pixels 
+        im_loc.set_pixels(self.pixels[l_min:l_max+1, c_min:c_max+1])
+        
+        print(l_min, l_max, c_min, c_max)
+        return im_loc
+        
+    
+    
+    #
+    #
+    #
+    
+    
+    #==============================================================================
+    # Methode de redimensionnement de l'image
+    #
+    #==============================================================================
+    def resize_im(self, new_H, new_W) :
+        
+        im_resized = image()
+        im_resized.set_pixels(self.pixels)
+        
+        im_resized.resize
+        
+    
+    
+    
 
 #==============================================================================
 # # Programme principal
@@ -80,12 +158,20 @@ ima_test.load_image('test10.jpg')
 # Affichage de cette image
 ima_test.display("image initiale")
 
+
 # Creation d'une image modifiee
 seuil = 150
-ima_modif = ima_test.modif_ima(seuil)
-
+ima_modif = ima_test.binaris(seuil)
 
 # Affichage de l'image modifiee
 ima_modif.display("image modifiee")
+
+
+# Recadrage de l'image binarisee
+ima_rec = ima_modif.localisation()
+
+#Affichage de l'image recadree
+ima_rec.display("image recadree")
+
 
 print("fin du programme")
