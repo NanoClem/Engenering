@@ -9,6 +9,10 @@ import pygame
 import math
 
 class Emoticon:
+    
+    #Constructor
+    def __init__(self, generalConfiguration):
+        self.generalConfiguration = generalConfiguration
 
     # Setters
     def setGeneralConfiguration(self, generalConfiguration):
