@@ -12,12 +12,13 @@ def main():
  
     # Creates the general configuration and the sensors
     generalConfiguration = GeneralConfiguration()
-
+    
     # Creates an emoticon
     emoticon = Emoticon()
     # Injects the general configuration in the emoticon
     emoticon.setGeneralConfiguration(generalConfiguration)
-  
+    print(emoticon.headToArea([10,10]))   
+    print(emoticon.color(1))
     # Infinite loop    
     while True:
 

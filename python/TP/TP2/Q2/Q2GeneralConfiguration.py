@@ -37,7 +37,7 @@ class GeneralConfiguration:
         
     # Draws on pygame screen      
     def draw(self):
-        pass
+       pass
             
     # Displays   
     def display(self):
