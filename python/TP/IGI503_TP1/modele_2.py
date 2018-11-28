@@ -143,13 +143,16 @@ class image:
         #Nombre total de pixels dans l'image de base
         px_total = self.H * self.W
         
-        if self.H == im.H & self.W == im.W :
+        if self.H==im.H and self.W==im.W :
             for l in range(self.H) :
                 for c in range(self.W) :
                     if self.pixels[l][c] == im.pixels[l][c] :
                         pixels_simil += 1
+                
         else :
             print("Dimensions differentes")
+            
+            
             
         return pixels_simil / px_total
 
@@ -251,12 +254,35 @@ print("Rapport de similitudes entre l'image localisee et son image negative :", 
 
 list_model = lect_modeles()
 # test verifiant la bonne lecture de l'un des modeles, par exemple le modele '8'
-list_model[8].display("modele 8")
+#list_model[8].display("modele 8")
 
 #==============================================================================
 # Mesure de similitude entre l'image et les modeles 
 # et recherche de la meilleure similitude
 #==============================================================================
+list_modif = [0]*len(list_model)    #liste des models traités
+simil_max = 0                       #similitude maximum
+id_im_max_simil = 0                 #id de l'image avec la similitude maximum
+new_im = image()                    #nouvelle image
 
+
+#Pour chaque model dans la liste, on traite et 
+#on compare les similitudes avec l'image de base (localisee)
+for i in range( len(list_model) ) :
+    new_im = list_model[i].resize_im(im_loc.H, im_loc.W)
+    list_modif[i] = new_im
+    s = im_loc.simil_im(new_im)
+    
+    if s > simil_max :
+        simil_max = s
+        id_im_max_simil = i
+        
+        
+print("L'image la plus similaire est l'image n°", id_im_max_simil, " avec un rapport de " + str(simil_max))
+im_loc.display("Image de base")
+list_modif[id_im_max_simil].display("Image avec le plus de similitude ")
+
+        
+    
 
 

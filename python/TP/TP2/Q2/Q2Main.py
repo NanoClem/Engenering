@@ -17,8 +17,9 @@ def main():
     emoticon = Emoticon()
     # Injects the general configuration in the emoticon
     emoticon.setGeneralConfiguration(generalConfiguration)
-    print(emoticon.headToArea([10,10]))   
-    print(emoticon.color(1))
+   # print(emoticon.headToArea([10,10]))   
+    #print(emoticon.color(1))
+    emoticon.setEmoticoneParameters(emoticon.generalConfiguration.emoticonSize)
     # Infinite loop    
     while True:
 

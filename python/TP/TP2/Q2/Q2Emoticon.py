@@ -9,11 +9,10 @@ import pygame
 import math
 
 class Emoticon:
-    
     # Setters
     def setGeneralConfiguration(self, generalConfiguration):
         self.generalConfiguration = generalConfiguration
-    
+     # créer les attribut d'abord???
     def setEmoticoneParameters(self,size):
         self.eyeWidth = 0.1*size
         self.eyeHeight = 0.15*size
@@ -23,38 +22,73 @@ class Emoticon:
         self.mouthMaxHeight = 0.3*size
         self.mouthMaxWidth = 0.55*size
         self.mouthAngle = math.pi/10
-    # Draws the emoticon    
-    def draw(self):   
-       self. head(1)
-# retourne les coordonnées dans le repère (o,x,y) du parametre position
+        
+    # Draws the emoticon  
+    def draw(self):
+        self. head(-1)
+        self.eye(self.eyeLeftPosition)
+        self.eye(self.eyeRightPosition)
+        self.mouth(self.mouthPosition,-0.10)
+        
+    # retourne les coordonnées dans le repère (o,x,y) du parametre position
     def headToArea(self,position):
         return [int(self.generalConfiguration.screen.get_width()/2+position[0]), int((self.generalConfiguration.emoticonSize/2)+(self.generalConfiguration.emoticonBorder)+(self.generalConfiguration.buttonHeight)-position[1])]
-    
+    #retourne la couleur associé au parametre x
     def color(self,x):
-      
         if x>=-1 and x<=0 :
-            R=255
-            V=255*x+255
-            
+           R=255
+           V=255*x+255
         elif x>=0 and x<=1 :
-            R=-255*x+255
-            V=255
-
+           R=-255*x+255
+           V=255
         else :
-            print("format de x non accepté")
-        
+           print("format de x non accepté")
         return [R,V,0]
     
+    #construit la tete de l'emoticone en dessinant un cercle de centre (0,0) et de rayon la motié emoticoneSize
     def head(self,x):
         screen= pygame.display.get_surface()
-         # Draws a circle in red with a center in 100, 100 and a radius equal to 80
-        pygame.draw.circle(screen,self.color(x), [100, 100], 80)
+        # Draws a circle in red with a center in 100, 100 and a radius equal to 80
+        pygame.draw.circle(screen,self.color(x), self.headToArea([0,0]),int(self.generalConfiguration.emoticonSize/2))
         
-   def eye(self,position):
-        # Draws a black ellipse contained in a rectangle whose left upper corner is 50,60, 
+    #   dessine l'oeil de l'emoticone
+    #position étant des coordonnées exprimer dans le repère (o',x',y')
+    def eye(self,position):
+        # Draws a black ellipse contained in a rectangle whose left upper corner is 50,60,
         # width=15 and height=20
+        eyepos=self.headToArea(position)
         screen= pygame.display.get_surface()
-        pygame.draw.ellipse(screen, [0,0,0], [70, 80, 17, 25])
+        pygame.draw.ellipse(screen, [0,0,0],[eyepos[0]-self.eyeWidth/2 ,eyepos[1]-self.eyeHeight,self.eyeWidth,self.eyeHeight])
+    
+    # mouth(self,position,x) 
+    # dessine la bouche de l'emoticone en prenant en compte le parametre x compris entre -1 et 1 et position étant des coordonnées exprimer dans le repère (o',x',y')
+    
+    def mouth(self,position,x) :
+        mouthCenter=self.headToArea(position)
+        screen= pygame.display.get_surface()
+        if x<0.15 and x>=-0.15:
+            pygame.draw.line(screen, [0,0,0], [mouthCenter[0]-self.mouthMaxWidth/2 ,mouthCenter[1]],[mouthCenter[0]+self.mouthMaxWidth/2 ,mouthCenter[1]] )
+            
+        elif x<0.15 :
+            pygame.draw.line(screen, [0,0,0], [mouthCenter[0]-self.mouthMaxWidth/2 ,mouthCenter[1]],[mouthCenter[0]+self.mouthMaxWidth/2 ,mouthCenter[1]])
+            
+        else :
+            pygame.draw.arc(screen, [0,0,0], [mouthCenter[0] - self.mouthMaxWidth/2 ,mouthCenter[1]-self.mouthMaxHeight/2, self.mouthMaxWidth,self.mouthMaxHeight*abs(x)],math.pi+self.mouthAngle , -self.mouthAngle)
+        
+          
+       
+        
+        
+        
+        
+        
+    
+    
+
+
+        
+    
        
    
     
+        

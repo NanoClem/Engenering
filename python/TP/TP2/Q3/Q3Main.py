@@ -17,6 +17,8 @@ def main():
     button = Button()
     # Injects the general configuration in the button
     button.setGeneralConfiguration(generalConfiguration)
+    test = ["", "Temp. Toit", "","38.4"]
+    button.drawLines(test)
   
     # Infinite loop    
     while True:
