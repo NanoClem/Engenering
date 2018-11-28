@@ -18,7 +18,7 @@ def main():
     # Injects the general configuration in the button
     button.setGeneralConfiguration(generalConfiguration)
     test = ["", "Temp. Toit", "","38.4"]
-    button.drawLines(test)
+    
   
     # Infinite loop    
     while True:
@@ -33,6 +33,7 @@ def main():
         # Draws the button
         elif event.type == pygame.USEREVENT:
             button.draw()
+            button.drawLines(test)
             generalConfiguration.display()
                                   
         elif event.type == pygame.MOUSEBUTTONDOWN:
