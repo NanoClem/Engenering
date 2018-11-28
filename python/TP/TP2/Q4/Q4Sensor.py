@@ -5,9 +5,8 @@ Created on Thu Nov 16 19:47:50 2017
 @author: lfoul
 """
 
-import httplib
-from urlparse import urlparse
-import socket
+import http
+import urllib
 
 class Sensor:
     # Constructor
@@ -29,25 +28,44 @@ class Sensor:
                      
     # Checks if the connection to the sensor is set
     def isConnectedToUrl(self):
-        self.parsedUrl = urlparse(self.url)
-        self.connection = httplib.HTTPConnection(self.parsedUrl.netloc, 80, 1) 
         try:
-            self.connection.request('GET', self.url)
-        except socket.error:
+            self.request = urllib.request.urlopen(self.url)
+        except OSError:
             return False
-        else: 
-            self.response = self.connection.getresponse()
-        return self.response.status == httplib.OK
-        
+        else:
+            return self.request.getcode() == http.HTTPStatus.OK
+
     # Reads the sensor
     def read(self):
         if self.isConnectedToUrl():
-            return self.response.read()
+            return self.request.read().decode('utf-8')
         else:
             return None
-            
+        
     # Gets the transformed value
     def getTransformedValue(self):
-        pass
+        sensValue  = float(self.read())      # valeur du sensor
+        result     = 0                       # résultat après normalisation
+        Smin       = self.thresholds[0]
+        Sneutral   = self.thresholds[1]
+        Smax       = self.thresholds[2]
+        
+        # NORMALISATION DE LA VALEUR DU SENSOR
+        if(sensValue < Sneutral):
+            result = (sensValue - Sneutral) / (Sneutral - Smin)
+        else :
+            result = (sensValue - Sneutral) / (Smax - Sneutral)
+            
+        # ECRETAGE
+        if(result > 1):
+            result = 1
+        elif(result < -1):
+            result = -1
+            
+        return result
+        
+        
+        
+        
                    
         

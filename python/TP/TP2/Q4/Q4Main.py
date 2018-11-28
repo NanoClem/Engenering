@@ -35,7 +35,11 @@ def main():
         # Draws the button
         elif event.type == pygame.USEREVENT:
             generalConfiguration.display()
-                                  
+            # Print sensor informations
+            print("Localisation : ", sensor.getLabel())
+            #print("Temperature : ", sensor.read())
+            print("Valeur normalisée : ", sensor.getTransformedValue())
+        
         elif event.type == pygame.MOUSEBUTTONDOWN:
             # Just pass
             pass
