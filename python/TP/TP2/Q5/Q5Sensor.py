@@ -34,9 +34,10 @@ class Sensor:
 
     def getSensorId(self):
         return self.sensorId
-
+    
     def getLabel(self):
         return self.label
+
 
     # Checks if the connection to the sensor is set
     def isConnectedToUrl(self):
@@ -47,6 +48,7 @@ class Sensor:
         else:
             return self.request.getcode() == http.HTTPStatus.OK
 
+
     # Reads the sensor
     def read(self):
         if self.isConnectedToUrl():
@@ -54,14 +56,36 @@ class Sensor:
         else:
             return None
 
+
     # Gets the transformed value
     def getTransformedValue(self):
-        pass
+        sensValue  = float(self.read())      # valeur du sensor
+        result     = 0                       # résultat après normalisation
+        Smin       = self.thresholds[0]
+        Sneutral   = self.thresholds[1]
+        Smax       = self.thresholds[2]
+        
+        # NORMALISATION DE LA VALEUR DU SENSOR
+        if(sensValue < Sneutral):
+            result = (sensValue - Sneutral) / (Sneutral - Smin)
+        else :
+            result = (sensValue - Sneutral) / (Smax - Sneutral)
+            
+        # ECRETAGE
+        if(result > 1):
+            result = 1
+        elif(result < -1):
+            result = -1
+            
+        return result
+    
 
     # Draws the emoticon for this sensor
     def drawEmoticon(self):
-        pass
+        self.emoticon.draw()
 
     # Draws the button for this sensor
     def drawButton(self):
-        pass
+        info = ['', self.getLabel(), '', self.read()]
+        self.button.drawLines(info)
+        self.button.draw()

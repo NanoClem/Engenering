@@ -15,17 +15,16 @@ class GeneralConfiguration:
         self.initPygame()
         
         # Parameters for the emoticons        
-        self.emoticonSize = 400
-        self.emoticonBorder = 20  
+        self._emoticonSize = 400
+        self._emoticonBorder = 20  
         
         # Parameters for the buttons
-        self.buttonWidth = 150
-        self.buttonHeight = 80
+        self._buttonWidth = 150
+        self._buttonHeight = 80
                 
         # Sensors list
-        self.sensors = []
-        
-        self.selectedSensor = 0
+        self._sensors = []
+        self._selectedSensor = 0
         
     # Initializes pygame        
     def initPygame(self): 
@@ -38,17 +37,34 @@ class GeneralConfiguration:
         # Gets pygame screen
         self.screen = pygame.display.get_surface()         
         
-    # Getters
-    # Compléter avec les Getters de la question Q1.4
+    # GETTERS / SETTERS
+    # Screen
+    def getButtonWidth(self)  :  return self._buttonWidth
+    def getButtonHeight(self) :  return self._buttonHeight
+    def setButtonWidth(self, value)  : self._buttonWidht  = value
+    def setButtonHeight(self, value) : self._buttonHeight = value
+    # Emoticon
+    def getEmoticonSize(self)  : return self._emoticonSize
+    def getEmoticonBorder(self): return self._emoticonBorder
+    def setEmoticonSize(self, value)   : self._emoticonSize   = value 
+    def setEmoticonBorder(self, value) : self._emoticonBorder = value
+    # Sensor
+    def getSensors(self)        : return self._sensors
+    def getSelectedSensor(self) : return self._selectedSensor
 
         
     # Adds a sensor    
     def addSensor(self, sensor):
         sensor.setGeneralConfiguration(self)
-        sensor.setSensorId(len(self.sensors))
-        sensor.setEmoticon(Emoticon(sensor))
+        sensor.setSensorId(len(self._sensors))
+        # Gestion de l'emoticon
+        Semoticon = Emoticon(sensor)
+        Semoticon.setEmoticoneParameters(self.getEmoticonSize())
+        sensor.setEmoticon(Semoticon)
+        # Gestion du boutton
         sensor.setButton(Button(sensor))
-        self.sensors.append(sensor)
+        
+        self._sensors.append(sensor)
  
     # Retrieves the sensor id from a posiiion
     def positionToSensorId(self, position):
@@ -62,8 +78,8 @@ class GeneralConfiguration:
     def draw(self):
         # Clears the surface
         pygame.display.get_surface().fill([0, 0, 0])
-        
-        pass
+        self.getSensors()[self.getSelectedSensor()].drawEmoticon()      # Draw the emoticon of the current sensor
+        self.getSensors()[self.getSelectedSensor()].drawButton()        # Draw the button
             
     # Displays   
     def display(self):

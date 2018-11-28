@@ -11,9 +11,8 @@ from Q5Sensor import Sensor
              
 def main():
  
-    # Creates the general configuration and the sensors
+    # Creates the general configuration, the sensors and the emoticones
     generalConfiguration = GeneralConfiguration()
-    
     generalConfiguration.addSensor(
         Sensor(
             'http://www.polytech.univ-smb.fr/apps/myreader/capteur.php?capteur=epua_b204_clim', 
