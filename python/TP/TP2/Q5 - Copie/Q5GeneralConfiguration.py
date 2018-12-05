@@ -69,20 +69,12 @@ class GeneralConfiguration:
     # Retrieves the sensor id from a posiiion
     def positionToSensorId(self, position):
         for i in range(len(self.getSensors())):
-            # Test en hauteur
-            if position[1] <= self.getButtonHeight() :
-                # Test en largeur
-                if position[0] >= i*self.getButtonWidth()+20 and position[0] <= (i+1)*self.getButtonWidth()+20 :
-                    print("Position du curseur :", position)
-                    print("ID SENSOR :", self.getSelectedSensor())
-                    return self.getSelectedSensor()
-            else:
-                return None
+            if()
             
 
     # Checks if the display of a new sensor was requested
     def checkIfSensorChanged(self, eventPosition):
-        
+        pass
     
     # Draws on pygame screen
     def draw(self):
@@ -91,7 +83,7 @@ class GeneralConfiguration:
         self.getSensors()[self.getSelectedSensor()].drawEmoticon()      # Draw the emoticon of the current sensor
         # Draw every buttons
         for i in range(len(self.getSensors())):
-            self.getSensors()[i].drawButton(i*self.getButtonWidth() + 20)                 
+            self.getSensors()[i].drawButton(i*self.getButtonWidth() + 20)                     
             
     # Displays   
     def display(self):
