@@ -25,16 +25,16 @@ class Button:
     """
     DESSINE LE BOUTON A L'ECRAN
     """
-    def draw(self):
+    def draw(self, width=0, height=0):
         buttonPos = self.getPosition()
         screen = pygame.display.get_surface()
-        pygame.draw.rect(screen, [255,255,255], [0, 0, buttonPos[0], buttonPos[1]], 1)
+        pygame.draw.rect(screen, [255,255,255], [width, height, buttonPos[0], buttonPos[1]], 1)
             
         
     """
     DESSINE LES LIGNES CONTENUES DANS LE BOUTON
     """
-    def drawLines(self, lines):
+    def drawLines(self, lines, width=0):
         screen = pygame.display.get_surface() 
         
         # Create the font
@@ -51,7 +51,7 @@ class Button:
             if(lines[i] == ""):
                 # texte compris dans l'image
                 textImage = font.render(lines[i+1], 0, [255,255,255])
-                posLine[0] = buttonSize[0]/2 - int(textImage.get_rect()[2]/2)
+                posLine[0] = buttonSize[0]/2 - int(textImage.get_rect()[2]/2) + width
                 posLine[1] = buttonSize[1]/(2+ajust) + i*jump
                 
             # Print text

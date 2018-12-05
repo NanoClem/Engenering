@@ -13,11 +13,40 @@ def main():
  
     # Creates the general configuration, the sensors and the emoticones
     generalConfiguration = GeneralConfiguration()
+    
     generalConfiguration.addSensor(
         Sensor(
             'http://www.polytech.univ-smb.fr/apps/myreader/capteur.php?capteur=epua_b204_clim', 
             'Temp. Clim B204',
             [20, 22, 23]
+        )
+    )
+    generalConfiguration.addSensor(
+        Sensor(
+            'http://www.polytech.univ-smb.fr/apps/myreader/capteur.php?capteur=epua_b204_coursive',
+            'Temp. Coursive B204',
+            [20, 22, 23]
+        )
+    )
+    generalConfiguration.addSensor(
+        Sensor(
+            'http://www.polytech.univ-smb.fr/apps/myreader/capteur.php?capteur=epua_b204_centre',
+            'Temp. Centre B204',
+            [20, 22, 23]
+        )
+    )
+    generalConfiguration.addSensor(
+        Sensor(
+            'http://www.polytech.univ-smb.fr/apps/myreader/capteur.php?capteur=epua_toiture',
+            'Temp. Toiture B204',
+            [30, 35, 40]
+        )
+    )
+    generalConfiguration.addSensor(
+        Sensor(
+            'http://www.polytech.univ-smb.fr/apps/myreader/capteur.php?capteur=epua_onduleur1_watts',
+            'Puiss. Ondulateur',
+            [10000, 12000, 15000]
         )
     )
 

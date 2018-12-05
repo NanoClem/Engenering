@@ -74,12 +74,14 @@ class GeneralConfiguration:
     def checkIfSensorChanged(self, eventPosition):
         pass
     
-    # Draws on pygame screen      
+    # Draws on pygame screen
     def draw(self):
         # Clears the surface
         pygame.display.get_surface().fill([0, 0, 0])
         self.getSensors()[self.getSelectedSensor()].drawEmoticon()      # Draw the emoticon of the current sensor
-        self.getSensors()[self.getSelectedSensor()].drawButton()        # Draw the button
+        # Draw every buttons
+        for i in range(len(self.getSensors())):
+            self.getSensors()[i].drawButton(i*self.getButtonWidth() + 20)                         
             
     # Displays   
     def display(self):

@@ -85,7 +85,7 @@ class Sensor:
         self.emoticon.draw()
 
     # Draws the button for this sensor
-    def drawButton(self):
+    def drawButton(self, width=0, height=0):
         info = ['', self.getLabel(), '', self.read()]
-        self.button.drawLines(info)
-        self.button.draw()
+        self.button.drawLines(info, width)
+        self.button.draw(width, height)
