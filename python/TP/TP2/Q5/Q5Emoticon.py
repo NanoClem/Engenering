@@ -9,11 +9,24 @@ import pygame
 import math
   
 class Emoticon:
-    # Constructor
+    """
+        Cette classe represente un emoticone ayant une couleur et une expressiion faciale
+    """
+    
     def __init__(self, sensor) :
+        """
+            CONSTRUCTEUR
+            :param sensor: sensor lie a l'emoticone
+        """
         self.sensor = sensor
 
+
+
     def setEmoticoneParameters(self,size):
+        """
+            Modifie les parametres de dessin de l'emoticone
+            :param size: coefficient de la taille des elements de l'emoticone
+        """
         self.eyeWidth = 0.1*size
         self.eyeHeight = 0.15*size
         self.eyeLeftPosition = [-0.15*size, 0.1*size]
@@ -23,18 +36,33 @@ class Emoticon:
         self.mouthMaxWidth = 0.55*size
         self.mouthAngle = math.pi/10
         
-    # Draws the emoticon  (à modifier pour faire correspondre vaec la valeur normalisée du sensor)
+        
+    
     def draw(self):
+        """
+            Dessine l'emoticone
+        """
         self. head(self.sensor.getTransformedValue())
         self.eye(self.eyeLeftPosition)
         self.eye(self.eyeRightPosition)
         self.mouth(self.mouthPosition,self.sensor.getTransformedValue())
         
-    # retourne les coordonnées dans le repère (o,x,y) du parametre position
+        
+
     def headToArea(self,position):
+        """
+            Retourne les coordonnees dans le nouveau repere (o, x, y)
+            :param position: position dans l'ancien repere
+        """
         return [int(self.sensor.generalConfiguration.screen.get_width()/2+position[0]), int((self.sensor.generalConfiguration.getEmoticonSize()/2)+(self.sensor.generalConfiguration.getEmoticonBorder())+(self.sensor.generalConfiguration.getButtonHeight())-position[1])]
-    #retourne la couleur associé au parametre x
+   
+    
+
     def color(self,x):
+        """
+            Retourne la couleur associé au parametre x
+            :param x: valeur normalisee du sensor
+        """
         if x>=-1 and x<=0 :
            R=255
            V=255*x+255
@@ -45,24 +73,36 @@ class Emoticon:
            print("format de x non accepté")
         return [R,V,0]
     
-    # construit la tete de l'emoticone en dessinant un cercle de centre (0,0) et de rayon la motié emoticoneSize
+    
+    
     def head(self,x):
+        """
+            Construit la tete de l'emoticone en dessinant un cercle de centre (0,0) et de rayon la motié de la taille de l'emoticone
+            :param x: valeur normalisee du sensor
+        """
         screen= pygame.display.get_surface()
         # Draws a circle in red with a center in 100, 100 and a radius equal to 80
         pygame.draw.circle(screen,self.color(x), self.headToArea([0,0]),int(self.sensor.generalConfiguration.getEmoticonSize()/2))
         
-    # dessine l'oeil de l'emoticone
-    # position étant des coordonnées exprimer dans le repère (o',x',y')
+        
+
     def eye(self,position):
-        # Draws a black ellipse contained in a rectangle whose left upper corner is 50,60,
-        # width=15 and height=20
+        """
+            Dessine un oeil de l'emoticone
+            :param position: position de l'oeil dans le nouveau repere
+        """
         eyepos=self.headToArea(position)
         screen= pygame.display.get_surface()
         pygame.draw.ellipse(screen, [0,0,0],[eyepos[0]-self.eyeWidth/2 ,eyepos[1]-self.eyeHeight,self.eyeWidth,self.eyeHeight])
     
-    # mouth(self,position,x) 
-    # dessine la bouche de l'emoticone en prenant en compte le parametre x compris entre -1 et 1 et position étant des coordonnées exprimer dans le repère (o',x',y')
+    
+    
     def mouth(self,position,x) :
+        """
+            Dessine la bouche de l'emoticone
+            :param position: position de la bouche dans le nouveau repere
+            :param x: valeur normalisee du sensor
+        """
         mouthCenter=self.headToArea(position)
         screen= pygame.display.get_surface()
         if (x<0.15 and x>=-0.15) or (x>0.15):

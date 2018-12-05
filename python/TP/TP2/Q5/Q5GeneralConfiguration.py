@@ -10,8 +10,15 @@ from Q5Emoticon import Emoticon
 from Q5Button import Button
 
 class GeneralConfiguration:
-    # Constructor
+    """
+     Cette classe est une interface entre les differents modules du projet
+    """
+
+
     def __init__(self) :
+        """
+            CONSTRUCTEUR
+        """
         self.initPygame()
         
         # Parameters for the emoticons        
@@ -26,8 +33,12 @@ class GeneralConfiguration:
         self._sensors = []
         self._selectedSensor = 0
         
-    # Initializes pygame        
+        
+        
     def initPygame(self): 
+        """
+            Initialise pygame
+        """
         #Initialization
         pygame.init()
         # Sets the screen size.
@@ -37,27 +48,131 @@ class GeneralConfiguration:
         # Gets pygame screen
         self.screen = pygame.display.get_surface()         
         
-    # GETTERS / SETTERS
-    # Screen
-    def getButtonWidth(self)  :  return self._buttonWidth
-    def getButtonHeight(self) :  return self._buttonHeight
-    def getButtonBorder(self, sensorID) :  return self.getSensors()[sensorID].button.getBorder()
-    def setButtonWidth(self, value)  : self._buttonWidht  = value
-    def setButtonHeight(self, value) : self._buttonHeight = value
-    def setButtonBorder(self, sensorID, value) : self.getSensors()[sensorID].button.setBorder()
-    # Emoticon
-    def getEmoticonSize(self)  : return self._emoticonSize
-    def getEmoticonBorder(self): return self._emoticonBorder
-    def setEmoticonSize(self, value)   : self._emoticonSize   = value 
-    def setEmoticonBorder(self, value) : self._emoticonBorder = value
-    # Sensor
-    def getSensors(self)        : return self._sensors
-    def getSelectedSensor(self) : return self._selectedSensor
-    def setSelectedSensor(self, value) : self._selectedSensor = value
+
+
+    def getButtonWidth(self) :
+        """
+            Retourne la largeur du bouton
+            :return: largeur du bouton
+        """
+        return self._buttonWidth
+    
+    
+    
+    def getButtonHeight(self) :
+         """
+            Retourne la hauteur du bouton
+            :return: hauteur du bouton
+         """
+         return self._buttonHeight
+    
+    
+    
+    def getButtonBorder(self, sensorID) :
+        """
+            Retourne l'epaisseur du bouton
+            :return: epaisseur du bouton
+        """
+        return self.getSensors()[sensorID].button.getBorder()
+    
+    
+    
+    def setButtonWidth(self, value)  : 
+        """
+            Modifie la largeur du bouton
+            :param value: valeur de la nouvelle largeur
+        """
+        self._buttonWidht  = value
+        
+        
+        
+    def setButtonHeight(self, value) : 
+        """
+            Modifie la hauteur du bouton
+            :param value: valeur de la nouvelle hauteur
+        """
+        self._buttonHeight = value
+        
+        
+        
+    def setButtonBorder(self, sensorID, value) : 
+        """
+            Modifie l'paisseur du bouton
+            :param sensorID: id du sensor
+            :param value: valeur de la nouvelle epaisseur
+        """
+        self.getSensors()[sensorID].button.setBorder()
+        
+    
+    
+    def getEmoticonSize(self) : 
+        """
+            Retourne la taille de l'emoticone
+            :return: taille de l'emoticone
+        """
+        return self._emoticonSize
+    
+    
+    
+    def getEmoticonBorder(self) : 
+        """
+            Retourne l'epaisseur de l'emoticone
+            :return: epaisseur de l'emoticone
+        """
+        return self._emoticonBorder
+    
+    
+    
+    def setEmoticonSize(self, value) : 
+        """
+            Modifie la taille de l'emoticone
+            :param value: nouvelle taille de l'emoticone
+        """
+        self._emoticonSize   = value 
+    
+    
+    
+    def setEmoticonBorder(self, value) : 
+        """
+            Modifie l'epaisseur de l'emoticone
+            :param value: nouvelle epaisseur de l'emoticone
+        """
+        self._emoticonBorder = value
+        
+        
+        
+    def getSensors(self) : 
+        """
+            Retourne la liste des sensors
+            :return: liste des sensors
+        """
+        return self._sensors
+    
+    
+    
+    def getSelectedSensor(self) : 
+        """
+            Retourne le sensor selectionne
+            :return: id du sensor selectionne
+        """
+        return self._selectedSensor
+    
+    
+    
+    def setSelectedSensor(self, value) : 
+        """
+            Modifie l'id sensor courrant
+            :param: nouvel id de sensor
+        """
+        self._selectedSensor = value
 
         
-    # Adds a sensor    
+  
     def addSensor(self, sensor):
+        """
+            Ajoute un nouveau sensor
+            :param: sensor a ajouter
+        """
         sensor.setGeneralConfiguration(self)
         sensor.setSensorId(len(self._sensors))
         # Gestion de l'emoticon
@@ -70,8 +185,12 @@ class GeneralConfiguration:
         self._sensors.append(sensor)
  
     
-    # Retrieves the sensor id from a posiiion
+
     def positionToSensorId(self, position):
+        """
+            Retourne l'id du sensor dont la position de la souris est située dans la zone du bouton associe
+            :param position: position de la souris sous forme de liste
+        """
         for i in range(len(self.getSensors())):
             # Test en hauteur
             if position[1] <= self.getButtonHeight() :
@@ -84,8 +203,12 @@ class GeneralConfiguration:
                 return None
             
 
-    # Checks if the display of a new sensor was requested
+    
     def checkIfSensorChanged(self, eventPosition):
+        """
+            Verifie si l'affichage des sensors doit être change, et le change
+            :param eventPosition: position de la souris sous forme de liste
+        """
         # ID du sensor courrant
         currentSensor = self.positionToSensorId(eventPosition)
         # Mise a jour du sensor courrant
@@ -95,8 +218,11 @@ class GeneralConfiguration:
                 self.getSensors()[i].isSelected(currentSensor)
             
     
-    # Draws on pygame screen
+
     def draw(self):
+        """
+            Dessine tous les elements du projet a l'ecran
+        """
         # Clears the surface
         pygame.display.get_surface().fill([0, 0, 0])
         self.getSensors()[self.getSelectedSensor()].drawEmoticon()      # Draw the emoticon of the current sensor
@@ -104,8 +230,12 @@ class GeneralConfiguration:
         for i in range(len(self.getSensors())):
             self.getSensors()[i].drawButton(i*self.getButtonWidth() + 20, 0, self.getButtonBorder(i))        
             
-    # Displays   
+            
+  
     def display(self):
+        """
+            Affiche a l'ecran des evenements en prenant en compte la boucle d'evenement
+        """
         # Draws on the screen surface
         self.draw()
         
