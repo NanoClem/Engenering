@@ -47,6 +47,16 @@ class Sensor:
             return False
         else:
             return self.request.getcode() == http.HTTPStatus.OK
+        
+        
+    
+    def isSelected(self, sensorID) :
+        if sensorID == self.getSensorId() :
+            self.button.setBorder(3)
+            return True
+        
+        self.button.setBorder(1)
+        return False
 
 
     # Reads the sensor
@@ -85,7 +95,7 @@ class Sensor:
         self.emoticon.draw()
 
     # Draws the button for this sensor
-    def drawButton(self, width=0, height=0):
+    def drawButton(self, width=0, height=0, border=1):
         info = ['', self.getLabel(), '', self.read()]
         self.button.drawLines(info, width)
-        self.button.draw(width, height)
+        self.button.draw(width, height, border)

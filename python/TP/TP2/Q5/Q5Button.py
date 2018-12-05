@@ -13,22 +13,27 @@ class Button:
     CONSTRUCTEUR
     """
     def __init__(self, sensor) :
-        self.sensor = sensor
+        self._sensor = sensor
+        self._border = 1
         
     """
     GETTERS
     """
-    def getPosition(self):
-        return [self.sensor.generalConfiguration.getButtonWidth(), self.sensor.generalConfiguration.getButtonHeight()]
-
+    def getPosition(self) :  return [self._sensor.generalConfiguration.getButtonWidth(), self._sensor.generalConfiguration.getButtonHeight()]
+    def getBorder(self)   : return self._border 
+    
+    """
+    SETTERS
+    """
+    def setBorder(self, value) : self._border = value
 
     """
     DESSINE LE BOUTON A L'ECRAN
     """
-    def draw(self, width=0, height=0):
+    def draw(self, width=0, height=0, border=1):
         buttonPos = self.getPosition()
         screen = pygame.display.get_surface()
-        pygame.draw.rect(screen, [255,255,255], [width, height, buttonPos[0], buttonPos[1]], 1)
+        pygame.draw.rect(screen, [255,255,255], [width, height, buttonPos[0], buttonPos[1]], self.getBorder())
             
         
     """

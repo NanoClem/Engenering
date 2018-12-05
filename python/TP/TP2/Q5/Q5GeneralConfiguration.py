@@ -41,8 +41,10 @@ class GeneralConfiguration:
     # Screen
     def getButtonWidth(self)  :  return self._buttonWidth
     def getButtonHeight(self) :  return self._buttonHeight
+    def getButtonBorder(self, sensorID) :  return self.getSensors()[sensorID].button.getBorder()
     def setButtonWidth(self, value)  : self._buttonWidht  = value
     def setButtonHeight(self, value) : self._buttonHeight = value
+    def setButtonBorder(self, sensorID, value) : self.getSensors()[sensorID].button.setBorder()
     # Emoticon
     def getEmoticonSize(self)  : return self._emoticonSize
     def getEmoticonBorder(self): return self._emoticonBorder
@@ -51,6 +53,7 @@ class GeneralConfiguration:
     # Sensor
     def getSensors(self)        : return self._sensors
     def getSelectedSensor(self) : return self._selectedSensor
+    def setSelectedSensor(self, value) : self._selectedSensor = value
 
         
     # Adds a sensor    
@@ -66,6 +69,7 @@ class GeneralConfiguration:
         
         self._sensors.append(sensor)
  
+    
     # Retrieves the sensor id from a posiiion
     def positionToSensorId(self, position):
         for i in range(len(self.getSensors())):
@@ -74,15 +78,22 @@ class GeneralConfiguration:
                 # Test en largeur
                 if position[0] >= i*self.getButtonWidth()+20 and position[0] <= (i+1)*self.getButtonWidth()+20 :
                     print("Position du curseur :", position)
-                    print("ID SENSOR :", self.getSelectedSensor())
-                    return self.getSelectedSensor()
+                    print("ID SENSOR :", i)
+                    return i
             else:
                 return None
             
 
     # Checks if the display of a new sensor was requested
     def checkIfSensorChanged(self, eventPosition):
-        
+        # ID du sensor courrant
+        currentSensor = self.positionToSensorId(eventPosition)
+        # Mise a jour du sensor courrant
+        if(currentSensor != None):
+            self.setSelectedSensor(currentSensor)
+            for i in range(len(self.getSensors())):
+                self.getSensors()[i].isSelected(currentSensor)
+            
     
     # Draws on pygame screen
     def draw(self):
@@ -91,7 +102,7 @@ class GeneralConfiguration:
         self.getSensors()[self.getSelectedSensor()].drawEmoticon()      # Draw the emoticon of the current sensor
         # Draw every buttons
         for i in range(len(self.getSensors())):
-            self.getSensors()[i].drawButton(i*self.getButtonWidth() + 20)                 
+            self.getSensors()[i].drawButton(i*self.getButtonWidth() + 20, 0, self.getButtonBorder(i))        
             
     # Displays   
     def display(self):
