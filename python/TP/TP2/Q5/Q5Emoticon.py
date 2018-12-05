@@ -25,10 +25,10 @@ class Emoticon:
         
     # Draws the emoticon  (à modifier pour faire correspondre vaec la valeur normalisée du sensor)
     def draw(self):
-        self. head(-1)
+        self. head(self.sensor.getTransformedValue())
         self.eye(self.eyeLeftPosition)
         self.eye(self.eyeRightPosition)
-        self.mouth(self.mouthPosition,-0.10)
+        self.mouth(self.mouthPosition,self.sensor.getTransformedValue())
         
     # retourne les coordonnées dans le repère (o,x,y) du parametre position
     def headToArea(self,position):
@@ -65,13 +65,13 @@ class Emoticon:
     def mouth(self,position,x) :
         mouthCenter=self.headToArea(position)
         screen= pygame.display.get_surface()
-        if x<0.15 and x>=-0.15:
-            pygame.draw.line(screen, [0,0,0], [mouthCenter[0]-self.mouthMaxWidth/2 ,mouthCenter[1]],[mouthCenter[0]+self.mouthMaxWidth/2 ,mouthCenter[1]] )
+        if (x<0.15 and x>=-0.15) or (x>0.15):
+            pygame.draw.arc(screen, [0,0,0], [mouthCenter[0] - self.mouthMaxWidth/2 ,mouthCenter[1]-self.mouthMaxHeight/2, self.mouthMaxWidth,self.mouthMaxHeight*abs(x)],math.pi+self.mouthAngle , -self.mouthAngle)
             
-        elif x<0.15 :
+        if x==0:
             pygame.draw.line(screen, [0,0,0], [mouthCenter[0]-self.mouthMaxWidth/2 ,mouthCenter[1]],[mouthCenter[0]+self.mouthMaxWidth/2 ,mouthCenter[1]])
             
-        else :
-            pygame.draw.arc(screen, [0,0,0], [mouthCenter[0] - self.mouthMaxWidth/2 ,mouthCenter[1]-self.mouthMaxHeight/2, self.mouthMaxWidth,self.mouthMaxHeight*abs(x)],math.pi+self.mouthAngle , -self.mouthAngle)
+        if x<-0.15:
+            pygame.draw.arc(screen, [0,0,0], [mouthCenter[0] - self.mouthMaxWidth/2 ,mouthCenter[1]-self.mouthMaxHeight/2, self.mouthMaxWidth,self.mouthMaxHeight*abs(x)],self.mouthAngle,math.pi-self.mouthAngle )
      
         
